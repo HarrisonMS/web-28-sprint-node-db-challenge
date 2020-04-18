@@ -2,10 +2,12 @@ const express = require('express');
 const Tasks = require('./tasks-model');
 const router = express.Router();
 
+//gets all tasks in the db
 router.get('/', (req, res) => {
   Tasks
     .find()
     .then(tasks => {
+      // the tasksB maps over the tasks object spreads in all tasks and if task.completed is a 1 or 0 it will convert to Boolean value
       const tasksB = tasks.map(task => ({...task, completed: Boolean(task.completed)}));
       res.status(200).json(tasksB);
     })
@@ -14,6 +16,7 @@ router.get('/', (req, res) => {
     });
 });
 
+//get tasks by their id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
   Tasks
@@ -31,6 +34,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+//post a tasks to the database
 router.post('/', (req, res) => {
   const taskData = req.body;
   Tasks
