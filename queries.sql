@@ -22,3 +22,4 @@ FROM projects AS p
 JOIN resources AS r ON pr.resource_id = r.id
 JOIN project_resources AS pr ON pr.project_id = p.id
 WHERE p.id = 1
+

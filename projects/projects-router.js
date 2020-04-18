@@ -98,6 +98,28 @@ router.get('/:id/resources', (req, res) => {
     }
   })
 })
+
+router.put('/:id', (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+
+  Projects.findById(id)
+  .then(project => {
+    console.log(project)
+      if (project) {
+      Projects.update(id, changes)
+      .then(updatedProject => {
+          res.status(200).json(updatedProject);
+      });
+  } else {
+      res.status(404).json({message: 'could not find project with that id'})
+  }
+}) .catch(error => {
+  console.log(error)
+  res.status(500).json({message: 'failed'})
+});
+});
+
 ///////post resource needed to project by id
 // router.post('/:id', (req, res) => {
 //   const resourceData = req.body

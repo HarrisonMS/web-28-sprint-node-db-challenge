@@ -5,15 +5,19 @@ module.exports = {
   findById,
   getResources,
   addProject,
-  getTasks
+  getTasks, 
+  update
 }
-function findById(id) {
-	return db("projects").where({ id: Number(id) }).first()
-}
+
 
 function getProjects() {
 	return db("projects");
 }
+
+function findById(id) {
+	return db("projects").where({ id: Number(id) }).first()
+}
+
 
 function getResources(id) {
   return db('project_resources as pr')
@@ -42,25 +46,15 @@ function getTasks(id) {
     .where({ project_id });
 }
 
-// async function addResource(resource) {
-//   const [id] = await db('resources').insert(resource);
-
-//   return findById(id);
-// }
-
-// function getResources(id) {
-//   const project_id = parseInt(id);
-//   return db('project_resources')
-//     .select(
-//       'resources.id as resource_id',
-//       'projects.id as project_id',
-//       'projects.name as project_name',
-//       'resources.name as resource_name',
-//       'projects.description as project_description',
-//       'resources.description as resource_description',
-//     )
-//     .join('projects', 'project_resources.project_id', 'projects.id')
-//     .join('resources', 'project_resources.resource_id', 'resources.id')
-//     .where('projects.id', project_id);
-// }
-
+// function getTasks(id) {
+//   return db('projects AS p')
+//   .join('tasks AS t', 't.project_id', 'p.id')
+//   .select('p.name', 'p.description', 't.description', 't.notes', 't.completed')
+//   .where('t.project_id', id)
+//   }
+function update(id, changes) {
+  return db('projects')
+  .where("id", id)
+  .update(changes)
+  .then(count => (count > 0 ? findById(id) : null))
+}

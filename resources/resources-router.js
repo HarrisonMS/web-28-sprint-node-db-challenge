@@ -41,4 +41,31 @@ router.post('/', (req, res) => {
     });
 });
 
+
+// router.post('/:id/task', (req, res) => {
+//   const taskData = req.body
+//   const id = req.params.id
+//   taskData.project_id = id
+
+//   Projects.getProject(id)
+//   .then(response => {
+//     if(!response) {
+//       res.status(404).json({ message: 'no project in our db by that id', data: response })
+//     } else {
+//       if(taskData) {
+//         Projects.taskData(taskData)
+//         .then(response => {
+//           res.status(201).json(response)
+//         })
+//         .catch(err => {
+//           res.status(500).json({ message: 'Failed to add task to that project', data: err })
+//         })
+//       } else {
+//         res.status(400).json({ message: 'Missing body' })
+//       }
+//     }
+//   })
+// })
+
+
 module.exports = router;
