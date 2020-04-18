@@ -87,17 +87,7 @@ router.get('/:id/tasks', (req, res) => {
     });
 });
 
-router.get('/:id/resources', (req, res) => {
-  const { id } = req.params
-  Projects.getResources(id)
-  .then(resources => {
-    if(resources) {
-      res.status(200).json({data: resources})
-    } else {
-      res.status(401).json({errorMessage: 'No resources found at that id sorrry bud'})
-    }
-  })
-})
+
 
 router.put('/:id', (req, res) => {
   const {id} = req.params;
@@ -119,7 +109,17 @@ router.put('/:id', (req, res) => {
   res.status(500).json({message: 'failed'})
 });
 });
-
+// router.get('/:id/resources', (req, res) => {
+//   const { id } = req.params
+//   Projects.getResources(id)
+//   .then(resources => {
+//     if(resources) {
+//       res.status(200).json({data: resources})
+//     } else {
+//       res.status(401).json({errorMessage: 'No resources found at that id sorrry bud'})
+//     }
+//   })
+// })
 ///////post resource needed to project by id
 // router.post('/:id', (req, res) => {
 //   const resourceData = req.body
