@@ -20,10 +20,9 @@ router.get('/:id', (req, res) => {
     .findById(id)
     .then(task => {
       if (task) {
-        const bTask = {...task, completed: Boolean(task.completed)};
-        res.status(200).json(bTask);
-      }
-      else {
+        const tasksB = {...task, completed: Boolean(task.completed)};
+        res.status(200).json(tasksB);
+      } else {
         res.status(404).json({ message: 'task not found in our database' });
       }
     })
@@ -37,8 +36,8 @@ router.post('/', (req, res) => {
   Tasks
     .add(taskData)
     .then(task => {
-      const bTask = {...task, completed: Boolean(task.completed)};
-      res.status(201).json(bTask);
+      const tasksB = {...task, completed: Boolean(task.completed)};
+      res.status(201).json(taskB);
     })
     .catch(() => {
       res
