@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
     .add(taskData)
     .then(task => {
       const tasksB = {...task, completed: Boolean(task.completed)};
-      res.status(201).json(taskB);
+      res.status(201).json(tasksB);
     })
     .catch(() => {
       res
