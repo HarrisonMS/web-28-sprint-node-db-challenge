@@ -5,7 +5,6 @@ module.exports = {
   findById,
   getResources,
   addProject,
-  addResource,
   getTasks
 }
 function findById(id) {
@@ -43,11 +42,11 @@ function getTasks(id) {
     .where({ project_id });
 }
 
-async function addResource(resource) {
-  const [id] = await db('resources').insert(resource);
+// async function addResource(resource) {
+//   const [id] = await db('resources').insert(resource);
 
-  return findById(id);
-}
+//   return findById(id);
+// }
 
 // function getResources(id) {
 //   const project_id = parseInt(id);
