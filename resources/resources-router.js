@@ -1,7 +1,7 @@
 const express = require('express');
 const Resources = require('./resources-model');
 const router = express.Router();
-
+//get all resources
 router.get('/', (req, res) => {
   Resources
     .find()
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
       res.status(500).json({ error: 'unable to fetch all resources' });
     });
 });
-
+//get resources by id
 router.get('/:id', (req, res) => {
   const { id } = req.params;
   Resources
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
       res.status(500).json({ error: 'unable to get resource' });
     });
 });
-
+//post resource to the data base
 router.post('/', (req, res) => {
   const resourceData = req.body;
   Resources
