@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
   })
   .catch((err) => {
       console.log(err);
-      res.status(500).json({ errrorMessage: "Failed to get projects from data base" }); 
+      res.status(500).json({ errorMessage: "Failed to get projects from data base" }); 
   });
 });
 
@@ -52,14 +52,14 @@ router.get('/:id/resources', (req, res) => {
     res.status(500).json({ message: 'Failed to get resources for given project id' });
   });
 });
-
+// post project to data base
 router.post('/', (req, res) => {
   const projectData = req.body
 
   Projects.addProject(projectData)
   .then(project => {
     if (!project.name) {
-      res.status(400).json({errrorMessage: 'Name for the project is required.. you may choose not to describe the project if you want'})
+      res.status(400).json({errorMessage: 'Name for the project is required.. you may choose not to describe the project if you want'})
     } else {
       res.status(201).json({data: project})
     }
@@ -69,5 +69,53 @@ router.post('/', (req, res) => {
     res.status(500).json({ message: error });
   });
 })
+
+router.get('/:id/tasks', (req, res) => {
+  const { id } = req.params;
+  Projects
+    .getTasks(id)
+    .then(tasks => {
+      const tasksBool = tasks.map(task => ({...task, completed: Boolean(task.completed)}));
+      res
+      .status(200)
+      .json(tasksBool);
+    })
+    .catch(() => {
+      res
+      .status(500)
+      .json({ error: 'unable to get tasks for this project at that id ' });
+    });
+});
+
+router.get('/:id/resources', (req, res) => {
+  const { id } = req.params
+  Projects.getResources(id)
+  .then(resources => {
+    if(resources) {
+      res.status(200).json({data: resources})
+    } else {
+      res.status(401).json({errorMessage: 'No resources found at that id sorrry bud'})
+    }
+  })
+})
+///////post resource needed to project by id
+// router.post('/:id', (req, res) => {
+//   const resourceData = req.body
+//   const { id } = req.params;
+
+//   Projects.addResource(resourceData, id)
+
+//   .then(resource => {
+//     if (resource) {
+//       res.status(400).json({errrorMessage: 'Name for the project is required.. you may choose not to describe the project if you want'})
+//     } else {
+//       res.status(201).json({data: resource})
+//     }
+//   })
+//   .catch(error => {
+//     console.log(error)
+//     res.status(500).json({ message: error });
+//   });
+// })
 
 module.exports = router;
