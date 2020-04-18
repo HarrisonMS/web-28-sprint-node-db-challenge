@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Projects = require("./projects-model.js")
 
-
+//get projets
 router.get("/", (req, res) => {
   Projects.getProjects().then((projects) => {
     projects.map((project) => {
@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
   });
 });
 
-
+// get projets by id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -36,7 +36,7 @@ router.get("/:id", (req, res) => {
       res.status(500).json({ message: "Failed to get project" });
     });
 });
-
+//get resources by project_id
 router.get('/:id/resources', (req, res) => {
   const { id } = req.params;
 
@@ -51,6 +51,25 @@ router.get('/:id/resources', (req, res) => {
     console.log(error)
     res.status(500).json({ message: 'Failed to get resources for given project id' });
   });
+});
+
+
+// get tasks for project_id
+router.get('/:id/tasks', (req, res) => {
+  const { id } = req.params;
+  Projects
+    .getTasks(id)
+    .then(tasks => {
+      const tasksBool = tasks.map(task => ({...task, completed: Boolean(task.completed)}));
+      res
+      .status(200)
+      .json(tasksBool);
+    })
+    .catch(() => {
+      res
+      .status(500)
+      .json({ error: 'unable to get tasks for this project at that id ' });
+    });
 });
 // post project to data base
 router.post('/', (req, res) => {
@@ -70,25 +89,7 @@ router.post('/', (req, res) => {
   });
 })
 
-router.get('/:id/tasks', (req, res) => {
-  const { id } = req.params;
-  Projects
-    .getTasks(id)
-    .then(tasks => {
-      const tasksBool = tasks.map(task => ({...task, completed: Boolean(task.completed)}));
-      res
-      .status(200)
-      .json(tasksBool);
-    })
-    .catch(() => {
-      res
-      .status(500)
-      .json({ error: 'unable to get tasks for this project at that id ' });
-    });
-});
-
-
-
+//change project by id
 router.put('/:id', (req, res) => {
   const {id} = req.params;
   const changes = req.body;
